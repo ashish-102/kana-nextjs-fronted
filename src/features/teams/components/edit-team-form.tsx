@@ -51,10 +51,11 @@ export const EditTeamForm = ({ onCancel, id }: EditTeamFormProps) => {
 
   const {
     data: userData,
+    refetch: userRefetch,
     isLoading: userLoading,
     error: userError,
   } = useGetUserByIdQuery(id ?? skipToken, {
-    refetchOnMountOrArgChange: true,
+    refetchOnMountOrArgChange: false,
   });
 
   const [
@@ -68,7 +69,6 @@ export const EditTeamForm = ({ onCancel, id }: EditTeamFormProps) => {
   useEffect(() => {
     if (userData) {
       form.setValue("name", userData.name || "");
-      form.setValue("number", userData.number || "");
       form.setValue("is_active", userData.is_active || false);
       form.setValue("is_admin", userData.is_admin || false);
       form.setValue("role", userData.role || ActiveProfile.DEFAULT);
@@ -79,10 +79,13 @@ export const EditTeamForm = ({ onCancel, id }: EditTeamFormProps) => {
   useEffect(() => {
     if (editIsSuccess) {
       toast.success("User updated");
+      if (id) {
+        userRefetch();
+      }
       form.reset();
       onCancel?.();
     }
-  }, [editIsSuccess, id, form, onCancel]);
+  }, [editIsSuccess, id, userRefetch, form, onCancel]);
 
   useEffect(() => {
     if (error && "data" in error) {

@@ -36,9 +36,8 @@ import {
 } from "./ui/select";
 import { FiltersInfo } from "@/features/members/components/filters-info";
 import { Modals } from "./modals";
-import { useCreateNotificationModal } from "@/features/members/hooks/use-create-notification-modal";
 
-interface DataTableProps<TData extends { id: string }, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterKey: string;
@@ -46,7 +45,7 @@ interface DataTableProps<TData extends { id: string }, TValue> {
   path: string;
 }
 
-export function DataTable<TData extends { id: string }, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
   filterKey,
@@ -58,8 +57,6 @@ export function DataTable<TData extends { id: string }, TValue>({
     []
   );
   const [rowSelection, setRowSelection] = React.useState({});
-
-  const { open } = useCreateNotificationModal();
 
   const table = useReactTable({
     data,
@@ -79,92 +76,10 @@ export function DataTable<TData extends { id: string }, TValue>({
   });
 
   return (
-    <>
+    <div>
       <div className="w-full">
-        <div className="flex flex-wrap items-center py-4 gap-2">
-          {path === "members" ? (
-            <div className="hidden md:flex items-center py-4 gap-2">
-              <Input
-                placeholder={`Filter by ${filterKey}...`}
-                value={
-                  (table.getColumn(filterKey)?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table.getColumn(filterKey)?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-              />
-              <Input
-                placeholder={`Filter by ${"model"}...`}
-                value={
-                  (table.getColumn("model")?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table.getColumn("model")?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-              />
-              <Input
-                placeholder={`Filter by ${"capacity"}...`}
-                value={
-                  (table.getColumn("capacity")?.getFilterValue() as string) ??
-                  ""
-                }
-                onChange={(event) =>
-                  table
-                    .getColumn("capacity")
-                    ?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-              />
-              <Input
-                placeholder={`Filter by ${"vehicle no"}...`}
-                value={
-                  (table
-                    .getColumn("vehicle_number")
-                    ?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table
-                    .getColumn("vehicle_number")
-                    ?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-              />
-              <Select
-                onValueChange={(value) => {
-                  if (value === "all") {
-                    table.getColumn("vehicle_type")?.setFilterValue("");
-                  } else {
-                    table.getColumn("vehicle_type")?.setFilterValue(value);
-                  }
-                }}
-              >
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Vehicle Type" />
-                </SelectTrigger>
-                <SelectContent align="end">
-                  <SelectItem value="all" className="text-center">
-                    All
-                  </SelectItem>
-                  <SelectItem value="open" className="text-center">
-                    Open
-                  </SelectItem>
-                  <SelectItem value="close" className="text-center">
-                    Close
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              {table ? (
-                <Modals table={table} />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader className="size-4 text-muted-foreground animate-spin" />
-                </div>
-              )}
-            </div>
-          ) : (
+        {path === "members" ? (
+          <div className="hidden md:flex items-center py-4 gap-2">
             <Input
               placeholder={`Filter by ${filterKey}...`}
               value={
@@ -173,10 +88,68 @@ export function DataTable<TData extends { id: string }, TValue>({
               onChange={(event) =>
                 table.getColumn(filterKey)?.setFilterValue(event.target.value)
               }
-              className="max-w-xs"
+              className="max-w-sm"
             />
-          )}
+            <Input
+              placeholder={`Filter by ${"model"}...`}
+              value={
+                (table.getColumn("model")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("model")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+            <Input
+              placeholder={`Filter by ${"capacity"}...`}
+              value={
+                (table.getColumn("capacity")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("capacity")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+            <Input
+              placeholder={`Filter by ${"vehicle no"}...`}
+              value={
+                (table
+                  .getColumn("vehicle_number")
+                  ?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn("vehicle_number")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+            <Select
+              onValueChange={(value) => {
+                if (value === "all") {
+                  table.getColumn("vehicle_type")?.setFilterValue("");
+                } else {
+                  table.getColumn("vehicle_type")?.setFilterValue(value);
+                }
+              }}
+            >
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Vehicle Type" />
+              </SelectTrigger>
+              <SelectContent align="end">
+                <SelectItem value="all" className="text-center">
+                  All
+                </SelectItem>
+                <SelectItem value="open" className="text-center">
+                  Open
+                </SelectItem>
+                <SelectItem value="close" className="text-center">
+                  Close
+                </SelectItem>
+              </SelectContent>
+            </Select>
 
+<<<<<<< HEAD
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
             <div className="ml-auto">
               <Button
@@ -198,6 +171,42 @@ export function DataTable<TData extends { id: string }, TValue>({
             </div>
           )}
         </div>
+=======
+            {table ? (
+              <Modals table={table} />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader className="size-4 text-muted-foreground animate-spin" />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex items-center py-4 gap-2">
+            <Input
+              placeholder={`Filter by ${filterKey}...`}
+              value={
+                (table.getColumn(filterKey)?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn(filterKey)?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        )}
+
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          <Button
+            disabled={disabled}
+            size="sm"
+            variant="outline"
+            className="ml-auto font-normal text-xs"
+          >
+            <BellPlus className="size-4 mr-0.5" />
+            Send Alert ({table.getFilteredSelectedRowModel().rows.length})
+          </Button>
+        )}
+>>>>>>> 51948fdfcaba535f1e411daa567f0239380a3187
       </div>
       <div className="rounded-md border">
         <Table>
@@ -271,6 +280,6 @@ export function DataTable<TData extends { id: string }, TValue>({
           Next
         </Button>
       </div>
-    </>
+    </div>
   );
 }

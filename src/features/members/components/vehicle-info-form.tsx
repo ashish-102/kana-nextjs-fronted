@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { VehicleType, VehicleStatus, VehicleName } from "../types";
+import { VehicleType, VehicleStatus, LocationStatus } from "../types";
 
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -117,27 +117,11 @@ export const VehicleInfoForm = ({
           name="model"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Vehicle Type</FormLabel>
-              <Select defaultValue={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select vehicle" />
-                  </SelectTrigger>
-                </FormControl>
-                <FormMessage />
-                <SelectContent>
-                  <SelectItem value={VehicleName.BOLERO}>Bolero</SelectItem>
-                  <SelectItem value={VehicleName.BADA_DOST}>
-                    Bada Dost
-                  </SelectItem>
-                  <SelectItem value={VehicleName.INTRA}>Intra</SelectItem>
-                  <SelectItem value={VehicleName.FOURTEEN_FT}>14 FT</SelectItem>
-                  <SelectItem value={VehicleName.SEVENTEEN_FT}>
-                    17 FT
-                  </SelectItem>
-                  <SelectItem value={VehicleName.TWENTY_FT}>20 FT</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormLabel>Model Name</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter model name" />
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -185,11 +169,11 @@ export const VehicleInfoForm = ({
           name="vehicle_type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Body Type</FormLabel>
+              <FormLabel>Vehicle Type</FormLabel>
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select an body type" />
+                    <SelectValue placeholder="Select an vehicle type" />
                   </SelectTrigger>
                 </FormControl>
                 <FormMessage />
@@ -231,7 +215,39 @@ export const VehicleInfoForm = ({
         />
         <FormField
           control={form.control}
+          name="location_status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Location Status</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an location status" />
+                  </SelectTrigger>
+                </FormControl>
+                <FormMessage />
+                <SelectContent>
+                  <SelectItem value={LocationStatus.ON_LOCATION}>On</SelectItem>
+                  <SelectItem value={LocationStatus.OFF_LOCATION}>
+                    Off
+                  </SelectItem>
+                  <SelectItem value={LocationStatus.IN_TRANSIT}>
+                    In Transit
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="vehicle_number"
+          rules={{
+            pattern: {
+              value: /^[A-Z]{2}-[0-9]{2}-[A-Z]{2}-[0-9]{4}$/,
+              message: "Invalid vehicle number",
+            },
+          }}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Vehicle Number</FormLabel>

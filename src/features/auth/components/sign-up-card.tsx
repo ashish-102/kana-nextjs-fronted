@@ -41,7 +41,6 @@ export const SignUpCard = () => {
     defaultValues: {
       email: "",
       password: "",
-      number: "",
     },
   });
 
@@ -104,18 +103,6 @@ export const SignUpCard = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              name="number"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input {...field} type="text" placeholder="Phone number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-              />
             <FormField
               name="password"
               control={form.control}

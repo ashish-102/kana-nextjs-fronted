@@ -8,8 +8,8 @@ export const EditTeamModal = () => {
   const { teamId, close } = useEditTeamModal();
 
   return (
-    <ResponsiveModal open={!!teamId} onOpenChange={close}>
-      {teamId && <EditTeamForm id={teamId} onCancel={close} />}
+    <ResponsiveModal key={teamId} open={!!teamId} onOpenChange={close}>
+      {teamId && <EditTeamForm key={teamId} id={teamId} onCancel={close} />}
     </ResponsiveModal>
   );
 };

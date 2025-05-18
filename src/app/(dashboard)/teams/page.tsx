@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -15,10 +16,15 @@ import { useGetAllProfilesInfoQuery } from "@/redux/features/team/teamApi";
 const UsersPage = () => {
   const { open } = useCreateTeamModal();
 
-  const { data = [], isLoading } = useGetAllProfilesInfoQuery({
-    refetchOnMountOrArgChange: true,
+  const { data, isLoading, refetch, isSuccess } = useGetAllProfilesInfoQuery({
+    refetchOnMountOrArgChange: false,
   });
 
+  useEffect(() => {
+    if (data && isSuccess) {
+      refetch();
+    }
+  }, [data, refetch, isSuccess]);
 
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10">
@@ -35,7 +41,7 @@ const UsersPage = () => {
         <CardContent>
           <DataTable
             columns={columns}
-            data={data}
+            data={data || []}
             filterKey="email"
             disabled={isLoading}
             path="teams"

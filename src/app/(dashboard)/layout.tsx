@@ -1,12 +1,9 @@
 'use client';
-import { useEffect } from "react";
-
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
-
-import { EditTeamModal } from "@/features/teams/components/edit-team-modal";
 import { CreateTeamModal } from "@/features/teams/components/create-team-modal";
-import { CreateNotificationModal } from "@/features/members/components/create-notification-modal";
+import { EditTeamModal } from "@/features/teams/components/edit-team-modal";
+import { useEffect } from "react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -42,7 +39,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <FixRadixAriaHidden />
       <CreateTeamModal />
       <EditTeamModal />
-      <CreateNotificationModal />
       <div className="flex w-full h-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
           <Sidebar />

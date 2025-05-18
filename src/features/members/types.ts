@@ -27,44 +27,24 @@ export enum VehicleStatus {
     COMPLETED = "COMPLETED",
 }
 
-export enum LoactionStatus {
+export enum LocationStatus {
     DEFAULT = "",
     ON_LOCATION = "ON_LOCATION",
     OFF_LOCATION = "OFF_LOCATION",
     IN_TRANSIT = "IN_TRANSIT",
 }
 
-export enum VehicleName {
-    BOLERO = "Bolero",
-    BADA_DOST = "Bada Dost",
-    INTRA = "Intra",
-    FOURTEEN_FT = "14 FT",
-    SEVENTEEN_FT = "17 FT",
-    TWENTY_FT = "20 FT",
-}
 
 export type VehicleData = {
-    id: string;
-    model: VehicleName;
-    name: string;
-    number: string;
-    alternate_number: string;
-    address: string;
-    vehicle_type: VehicleType.DEFAULT;
-    location_status: LoactionStatus;
-    vehicle_number: string;
-    capacity: number;
-    status: VehicleStatus;
+  id: string;
+  model: string;
+  name: string;
+  number: string;
+  alternate_number: string;
+  address: string;
+  vehicle_type: VehicleType.DEFAULT;
+  location_status: LocationStatus.DEFAULT;
+  vehicle_number: string;
+  capacity: number;
+  status: VehicleStatus;
 };
-
-
-export type NotificationData = {
-    id: string;
-    source: string;
-    destination: string;
-    rate: number;
-    weight: number;
-    date: string;
-    message: string;
-    contact: string;
-}

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { useEffect } from "react";
 import { Loader } from "lucide-react";
 
 import { skipToken } from "@reduxjs/toolkit/query";
@@ -20,7 +21,7 @@ import {
   useGetByIdVehicleInfoQuery,
 } from "@/redux/features/vehicle/vehicleApi";
 
-import { VehicleType, VehicleStatus, LoactionStatus, VehicleName } from "../types";
+import { VehicleType, VehicleStatus, LocationStatus } from "../types";
 
 type FormValues = z.input<typeof VehicleInfoSchema>;
 
@@ -29,17 +30,24 @@ export const EditVehicleSheet = () => {
 
   const {
     data: memberData,
+    refetch: memberRefetch,
     isLoading: memberLoading,
     isSuccess: memberSuccess,
     error: memberError,
   } = useGetByIdVehicleInfoQuery(id ?? skipToken, {
-    refetchOnMountOrArgChange: true,
+    refetchOnMountOrArgChange: false,
   });
 
   const [
     editVehicleInfo,
     { isSuccess: editSuccess, error: editError, isLoading: editIsLoading },
   ] = useEditVehicleInfoMutation();
+
+  useEffect(() => {
+    if (id && memberSuccess && editSuccess) {
+      memberRefetch();
+    }
+  }, [id, memberSuccess, memberRefetch, editSuccess]);
 
   const error = memberError || editError;
   const isSuccess = memberSuccess || editSuccess;
@@ -52,26 +60,26 @@ export const EditVehicleSheet = () => {
 
   const defaultValues = memberData
     ? {
-        model: memberData.model || VehicleName.BOLERO,
+        model: memberData.model || "",
         name: memberData.name || "",
         number: memberData.number || "",
         alternate_number: memberData.alternate_number || "",
         address: memberData.address || "",
         vehicle_type: memberData.vehicle_type || VehicleType.DEFAULT,
         status: memberData.status || VehicleStatus.DEFAULT,
-        location_status: memberData.location_status || LoactionStatus.DEFAULT,
+        location_status: memberData.location_status || LocationStatus.DEFAULT,
         vehicle_number: memberData.vehicle_number || "",
         capacity: memberData.capacity || undefined,
       }
     : {
-        model: VehicleName.BOLERO,
+        model: "",
         name: "",
         number: "",
         alternate_number: "",
         address: "",
         vehicle_type: VehicleType.DEFAULT,
         status: VehicleStatus.DEFAULT,
-        location_status: LoactionStatus.DEFAULT,
+        location_status: LocationStatus.DEFAULT,
         vehicle_number: "",
         capacity: undefined,
       };
